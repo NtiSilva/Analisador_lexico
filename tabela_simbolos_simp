@@ -1,0 +1,12 @@
+Tabela de Simbolos
+Chave:4 ['Res Cod: 1', 'int', 'L:1 C:(1,4)']
+Chave:6 ['ID ', 'a', 'L:1 C:(5,6)']
+Chave:10 ['NUM', '2', 'L:1 C:(9,10)']
+Chave:15 ['Res Cod: 1', 'int', 'L:2 C:(1,4)']
+Chave:17 ['ID ', 'b', 'L:2 C:(5,6)']
+Chave:21 ['NUM', '3', 'L:2 C:(9,10)']
+Chave:26 ['Res Cod: 1', 'int', 'L:3 C:(1,4)']
+Chave:28 ['ID ', 'c', 'L:3 C:(5,6)']
+Chave:32 ['ID ', 'c', 'L:5 C:(1,2)']
+Chave:37 ['ID ', 'a', 'L:5 C:(6,7)']
+Chave:41 ['ID ', 'b', 'L:5 C:(10,11)']
