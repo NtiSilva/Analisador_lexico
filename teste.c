@@ -1,4 +1,5 @@
-int a if (a > c)
+int a
+if (a > c)
 {
-    c = a
+    d = (c > a)
 }

@@ -7,32 +7,38 @@ token = ""
 numerico = ""
 posicao = 0
 separadores = ['(', ')', '{', '}', '=', '.', '|']
-operadores = ['-', '+', '/', '*', '<', '>', '==', '!=', '&']
+operadores = ['-', '+', '/', '*', '<', '>', '&']
 lista_erros = []
 token_geral = []
 tabela_token = {}
+tabela_sin = {}
 linha = 0
 coluna = 0
 id_tabela = 0
 acumula = ""
 
-
 def imprime_tabela(tabela):
-    arq_tabela = open("tabela_token", "w")
+    arq_tabela = open("Tabela Lexica", "w")
     arq_tabela.write("Tabela de Simbolos\n")
     for i in sorted(tabela):
         arq_tabela.write("Chave:" + str(i) + " " + str(tabela_token[i]) + "\n")
     arq_tabela.close()
 
-def imprime_erros(lista, nome):
-    arq_erro = open("lista_erros " + nome, "w")
+def imprime_tabela_s(tabela):
+    arq_tabela = open("Tabela Sintatica", "w")
+    arq_tabela.write("Tabela de Simbolos\n")
+    for i in sorted(tabela):
+        arq_tabela.write("Chave:" + str(i) + " " + str(tabela_sin[i]) + "\n")
+    arq_tabela.close()
+
+def imprime_erros(lista):
+    arq_erro = open("Lista de erros lexicos", "w")
     arq_erro.write("Tabela de Erros")
     linhas = len(lista)
     colunas = len(lista[0])
     for i in range(linhas):
         for j in range(colunas):
             if j == colunas -1:
-                # print(lista[i])
                 arq_erro.write(str(lista[i]))
             else:
                 arq_erro.write("\n")
@@ -48,9 +54,6 @@ def abrir_arquivo():
 
 def verifica_numero(elem):
     return 1 if(re.match(r"\d", elem)) else 0
-
-def return_numero(num):
-    return re.match(r"(^[0-9]*$|[0-9]+.[0-9]+)", num)
 
 def verifica_identificador(elem):
     return 0 if(re.match(r"[\w]", elem)) else 1
@@ -70,7 +73,6 @@ def verifica_erro(elem, token_geral, lista_erros, linha, coluna):
                 token_geral.append(["Error", elem, linha])
             return 0
         else:
-            # print(elem)
             return elem
     return 1
 
@@ -196,7 +198,6 @@ token_geral.append(["EOF", '$', linha])
 
 # Sintatico
 
-
 def lerXML():
     xml = ET.parse('MinhaTabela.xml')
     raiz = xml.getroot()
@@ -230,9 +231,7 @@ def lerXML():
     return simbolosMap, producoesMap, lalrMap
 
 
-
 def analisadorSintatico(token_geral, simbolosMap, producoesMap, lalrMap):
-    # print('token', token_geral)
     estadoAtualFita = 0
 
     pilha = []
@@ -248,37 +247,26 @@ def analisadorSintatico(token_geral, simbolosMap, producoesMap, lalrMap):
             fitaLinha.append(token_geral[l][2])
             break
 
-    # print(simbolosMap)
     print(fita)
-    # print(fitaLinha)
     
-
     # converte os valores salvos na fita para os volores dos simbolos
     for i, j in enumerate(fita):
         fita[i] = simbolosMap[j]
-	# print('2', fita)
-    # print('dd', lalrMap)
+
+    print(fita)
     status = ''
     while(status != 'AC'):
-        # print("lar", lalrMap[int(pilha[-1])])
+        print(fita[estadoAtualFita])
         estadoTabela = lalrMap[int(pilha[-1])]
-        print(pilha)
-        print("t", estadoTabela)
-        # print('2', fita)
         encontrado = False
         for simb in estadoTabela:
             if simb[0] == fita[estadoAtualFita]:
-                # print("es", estadoAtualFita)
-                # print('s', simb)
-                # print('f', fita[estadoAtualFita])
                 print("pilha", pilha)
                 acao, valor = simb[1], simb[2]
                 simbE = simb[0]
                 encontrado = True
                 break
-            # print(encontrado)
-            # print(simb)
-            # print(fita)
+
         if encontrado:
             if acao == '1':
                 pilha.append(simbE)
@@ -289,14 +277,8 @@ def analisadorSintatico(token_geral, simbolosMap, producoesMap, lalrMap):
                 # NomeDaRegra, Tamanho
                 tupla = producoesMap[int(valor)]
                 desempilha = len(pilha) - 2 * int(tupla[1])
-                # print("rr", len(pilha) - 2 * int(tupla[1]))
-                # print(len(pilha))
-                # print("des", desempilha)
-                # print("tupla", int(tupla[1]))
-                # print("teste", pilha[desempilha:])
                 del pilha[desempilha:]
                 # empilha nome regra
-                # print("pp", pilha)
                 pilha.append(tupla[0])
                 # verifica salto
                 proxEstado = lalrMap[int(pilha[-2])]
@@ -318,9 +300,9 @@ def analisadorSintatico(token_geral, simbolosMap, producoesMap, lalrMap):
                 print('Aceita')
                 status = 'AC'
         else:
-            print("ww")
             print('Erro sintático na linha {}'.format(
-                fitaLinha[estadoAtualFita]))
+                fitaLinha[estadoAtualFita]),
+                estadoAtualFita)
             break
 
 
@@ -339,3 +321,5 @@ if __name__ == '__main__':
         # print("token",  token_geral)
         imprime_tabela(tabela_token)
         analisadorSintatico(token_geral, simbolosMap, producoesMap, lalrMap)
+        imprime_tabela_s(tabela_sin)
+
