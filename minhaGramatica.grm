@@ -8,7 +8,7 @@
 id = {digit} + [abcdxyzABCDXYZ]
 num = [0123456789]{digit}*
                  
-<S> ::= <decl> <S> | <att> <S> | <cond> <S>| <rep> <S> | <>
+<S> ::= <decl> <S> | <att> <S> | <cond> <S> | <rep> <S> | <>
          
 <tipo>  ::= int | float | char
          
@@ -30,4 +30,4 @@ num = [0123456789]{digit}*
 
 <op>    ::= num | id | <opmat>
          
-<bloco> ::= <S> |'$'
+<bloco> ::= <S> | '$'

@@ -247,21 +247,21 @@ def analisadorSintatico(token_geral, simbolosMap, producoesMap, lalrMap):
             fitaLinha.append(token_geral[l][2])
             break
 
-    print(fita)
+    # print(fita)
     
     # converte os valores salvos na fita para os volores dos simbolos
     for i, j in enumerate(fita):
         fita[i] = simbolosMap[j]
 
-    print(fita)
+    # print(fita)
     status = ''
     while(status != 'AC'):
-        print(fita[estadoAtualFita])
+        # print(fita[estadoAtualFita])
         estadoTabela = lalrMap[int(pilha[-1])]
         encontrado = False
         for simb in estadoTabela:
             if simb[0] == fita[estadoAtualFita]:
-                print("pilha", pilha)
+                # print("pilha", pilha)
                 acao, valor = simb[1], simb[2]
                 simbE = simb[0]
                 encontrado = True
@@ -310,16 +310,12 @@ if __name__ == '__main__':
     # agrupa(token_geral)
     if (lista_erros):
         print("Erros lexicos foram encontrados, verifique o arquivo de erros!!")
-        imprime_erros(lista_erros, "Lexico")
+        print(lista_erros)
+        # imprime_erros(lista_erros, "Lexico")
     else:
         lista_erros = []
         simbolosMap, producoesMap, lalrMap = lerXML()
-        # print("simbolos", simbolosMap)
-        # print("producoes", producoesMap)
-        # print("lalr", lalrMap)
-        # print("tabela", tabela_token)
-        # print("token",  token_geral)
         imprime_tabela(tabela_token)
         analisadorSintatico(token_geral, simbolosMap, producoesMap, lalrMap)
-        imprime_tabela_s(tabela_sin)
+        # imprime_tabela_s(tabela_sin)
 
