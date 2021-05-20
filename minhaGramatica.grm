@@ -1,0 +1,33 @@
+"Name"    = 'Nti' 
+"Version" = '2021'
+"Author"  = 'Ntidandara da Silva' 
+"About"   = 'Linguagem inventada'
+        
+"Start Symbol"   = <S>
+           
+id = {digit} + [abcdxyzABCDXYZ]
+num = [0123456789]{digit}*
+                 
+<S> ::= <decl> <S> | <att> <S> | <cond> <S>| <rep> <S> | <>
+         
+<tipo>  ::= int | float | char
+         
+<att>   ::= id '=' <exp>
+         
+<decl>  ::= <tipo> id | <tipo> <att>
+         
+<rep>   ::= while '(' <exp> ')' '{' <bloco> '}'
+
+<exp>   ::= '(' <exp> ')' | <comp> '&' <comp> | <comp> '|' <comp> | <comp>
+
+<comp>  ::=  <OP> '>' <OP> | <OP> '<' <OP> | <OP> '!' <OP>
+         
+<cond>  ::= if '(' <exp> ')' '{' <bloco> '}' <cpcond> | if '(' <exp> ')' '{' <bloco> '}'
+
+<cpcond> ::= else '{' <bloco> '}'
+                
+<opmat> ::= 'id' '+' <op> | 'id' '-' <op> | 'id' '*' <op>
+
+<op>    ::= num | id | <opmat>
+         
+<bloco> ::= <S> |'$'

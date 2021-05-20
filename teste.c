@@ -1,7 +1,4 @@
-int a 
-if a > e
+int a if (a > c)
 {
-    e = a
+    c = a
 }
-else { a = e }
-while r[]
